@@ -116,13 +116,15 @@ class MultiSelect extends BaseFormItem
 			throw new ValueNotSetException;
 		}
 		$parts = explode('.', $this->value);
+		$key = '';
 		foreach ($parts as $part)
 		{
 			if ($result instanceof Relation)
 			{
-				$result = $result->lists($part);
+				$result = $result->select($key.'.*')->lists($part)->all();
 			} else
 			{
+				$key = $part;
 				$result = $result->$part();
 			}
 		}
